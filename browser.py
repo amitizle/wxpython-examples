@@ -18,7 +18,7 @@ class SimpleBrowser(wx.Frame):
 
   def InitMainView(self):
     self.browser = wx.html2.WebView.New(self)
-    self.browser.LoadURL("http://www.google.com")
+    self.browser.LoadURL("about:blank")
     self.url_text = wx.TextCtrl(self, -1, "Enter URL", style = wx.TE_PROCESS_ENTER)
     self.Bind(wx.EVT_TEXT_ENTER, self.OnNewURL, self.url_text)
     vertical_box = wx.BoxSizer(wx.VERTICAL)
@@ -28,15 +28,12 @@ class SimpleBrowser(wx.Frame):
     self.SetSizerAndFit(vertical_box)
 
   def OnNewURL(self, event):
-    try:
-      new_url = urlparse(self.url_text.GetValue())
-      request_path = new_url.geturl()
-      if new_url.scheme != "http":
-        request_path = "http://" + request_path
-      self.browser.LoadURL(request_path)
-      self.url_text.SetValue(request_path)
-    except Exception as e:
-      self.alert_error("Error on loading url %s: %s" % (request_path,e))
+    new_url = urlparse(self.url_text.GetValue())
+    request_path = new_url.geturl()
+    if new_url.scheme != "http":
+      request_path = "http://" + request_path
+    self.browser.LoadURL(request_path)
+    self.url_text.SetValue(request_path)
 
   def InitMenuBar(self):
     menu_bar = wx.MenuBar()
@@ -66,7 +63,7 @@ class SimpleBrowser(wx.Frame):
       self.status_bar.Hide()
 
   def OnAbout(self, event):
-    about_dialog = wx.MessageDialog(None, message="Created by Amit Goldberg", style=wx.OK)
+    about_dialog = wx.MessageDialog(None, message="About window", style=wx.OK)
     dialog_button = about_dialog.ShowModal()
 
   def InitStatusBar(self):
