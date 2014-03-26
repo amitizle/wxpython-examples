@@ -1,2 +1,2 @@
-wxpython_browser
+wxPython examples
 ================
